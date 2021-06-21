@@ -1,0 +1,29 @@
+<div class="postFormContainer">
+    <div class="userImageContainer">
+        <img src="<%=payload.userLoggedIn.profilePic%>" alt="<%=userLoggedIn.firstName%>'s Profile picture" >
+        <!--Or M-2 can use using userLoggedIn from res.locals.-->
+    </div>
+    <form action="/api/posts" method="POST" enctype="multipart/form-data">
+    <div class="textareaContainer">
+        <textarea name="content" id="postTextarea" placeholder="What's happening?"></textarea>
+    </div>
+    <!--IMAGE-->
+    <hr class="Horizontal">
+    <div class="form-file custom-file">
+      
+        <label class="form-file-label" for="image">
+            <i class="fas fa-image"></i>
+        </label>
+        <input type="file" class="form-file-input" id="image" name="image" >
+        <!--<label class="form-file-label" for="image">
+            <span class="form-file-text custom-file-label">Choose image(s)...</span>
+            <span class="form-file-button">Browse</span>
+        </label>-->
+    </div>
+    <!--IMAGE-->
+    <div class="buttonsContainer">
+        <button id="submitPostButton" disabled>post</button>
+    </div>
+    </form>
+    
+</div>

@@ -1,0 +1,30 @@
+{
+  "name": "devconnector",
+  "version": "1.0.0",
+  "description": "Social Media App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "AMIT JAKHAR",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.26.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^10.0.0",
+    "ejs-locals": "^1.0.2",
+    "ejs-mate": "^3.0.0",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
+    "mongodb": "^3.6.9",
+    "mongoose": "^5.12.14",
+    "multer": "^1.4.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7"
+  }
+}

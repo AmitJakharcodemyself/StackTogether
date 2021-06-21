@@ -1,0 +1,28 @@
+<% layout('layouts/login-layout.ejs')%>
+
+<div class="loginContainer">
+    <h1>Register</h1>
+   <p><%=payload.errorMessage%></p>
+    <form id="formRegister" action="" method="post" onsubmit="event.preventDefault(); validateForm();">
+        <input type="text" name="firstName" id="" placeholder="First Name"  required>
+        <input type="text" name="lastName" id="" placeholder="Last Name"  required>
+        <input type="text" name="username" id="" placeholder="Username" required>
+        <input type="email" name="email" id="" placeholder="Email" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <input type="password" name="passwordConf" id="passwordConf" placeholder="Confirm Password" required>
+        <button type="submit" id="submit_register">Register</button>
+    </form>
+    <a href="/login">Already have an Account? Login Here!!</a>
+</div>
+
+<script>
+    var passwordField=document.getElementById('password');
+    var passwordConfirmField=document.getElementById('passwordConf');
+    var form =document.getElementById('formRegister');
+    function validateForm(){
+        if(passwordField.value!=passwordConfirmField.value)
+        alert('Passwords do not match! Please try again.');
+        else
+        form.submit();
+    }
+</script>

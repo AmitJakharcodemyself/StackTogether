@@ -1,0 +1,14 @@
+<% layout('layouts/login-layout.ejs')%>
+
+<div class="loginContainer">
+    <h1>Login</h1>
+    <p><%=payload.errorMessage%></p>
+    <form action="" method="post">
+        <input type="text" name="logUsername" id="" placeholder="username or email" required>
+        <input type="password" name="logPassword" id="" placeholder="password" required>
+        <button type="submit" id="submit_login">Login</button>
+    </form>
+    <a href="/register">Don't have an Account? Register Here!!</a>
+</div>
+
+
