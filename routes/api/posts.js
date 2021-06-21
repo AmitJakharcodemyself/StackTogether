@@ -34,6 +34,25 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
         content:req.body.content,
         postedBy:req.session.user
     };
+
+    if(req.body.replyTo) {
+        postData.replyTo = req.body.replyTo;
+        try{
+            var newPost =new Post(postData);
+          //remove image part
+            await newPost.save();
+            //populate
+            // await newPost.populate('postedBy');
+            newPost= await User.populate(newPost,{path:"postedBy"});// is newPost is not Const
+           // return res.status(201).send(newPost);
+           return res.status(200).redirect('/');
+            }
+            catch(error){
+                console.log(error);
+              return  res.sendStatus(400);
+            }
+    }
+
     try{
     var newPost =new Post(postData);
     newPost.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
@@ -122,9 +141,11 @@ async function getPosts(filter) {
     var results = await Post.find(filter)
     .populate("postedBy")
     .populate("retweetData")
+    .populate("replyTo")
     .sort({ "createdAt": -1 })
     .catch(error => console.log(error))
 
+    results=await User.populate(results,{path:"replyTo.postedBy"});
     return await User.populate(results, { path: "retweetData.postedBy"});
 }
 

@@ -264,3 +264,10 @@ button span{
 .Horizontal{
     width:500px;
 }
+.replyFlag {
+    margin-bottom: 5px;
+}
+
+.replyFlag a {
+    color: var(--blue);
+}
