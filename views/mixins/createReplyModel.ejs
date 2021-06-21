@@ -8,13 +8,16 @@
           </button>
         </div>
         <div class="modal-body">
+          <div id="originalPostContainer">
+            
+          </div>
           <div class="postFormContainer">
             <div class="userImageContainer">
                 <img src="<%=payload.userLoggedIn.profilePic%>" alt="<%=userLoggedIn.firstName%>'s Profile picture" >
             </div>
             
             <div class="textareaContainer">
-                <textarea name="content" id="postTextarea" placeholder="What's happening?"></textarea>
+                <textarea name="content" id="replyTextarea" placeholder="What's happening?"></textarea>
             </div>
           
         </div>

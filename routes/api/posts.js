@@ -6,20 +6,22 @@ const multer = require('multer');
 const { storage } = require('../../cloudinary/index');
 const upload = multer({ storage });
 
-router.get('/',async(req,res,next)=>{
-    try{
-   var posts=await Post.find({})
-   .populate("postedBy")
-   .populate("retweetData")
-   .sort({"createdAt":-1});
-   posts=await User.populate(posts, { path: "retweetData.postedBy"});
-  // console.log(posts)
-   res.status(200).send(posts);
-    }catch(error){
-        console.log(error);
-        res.sendStatus(400);
-    }
-});
+router.get("/", async (req, res, next) => {
+    var results = await getPosts({});
+    res.status(200).send(results);
+})
+
+router.get("/:id", async (req, res, next) => {
+
+    var postId = req.params.id;
+
+    var results = await getPosts({ _id: postId });
+    results = results[0];
+
+    res.status(200).send(results);
+})
+
+
 router.post('/',upload.array('image'), async(req,res,next)=>{
     //console.log(req.files);
     //console.log(req.body);
@@ -116,5 +118,14 @@ router.post("/:id/retweet", async (req, res, next) => {
     res.status(200).send(post)
 })
 
+async function getPosts(filter) {
+    var results = await Post.find(filter)
+    .populate("postedBy")
+    .populate("retweetData")
+    .sort({ "createdAt": -1 })
+    .catch(error => console.log(error))
+
+    return await User.populate(results, { path: "retweetData.postedBy"});
+}
 
 module.exports=router;
