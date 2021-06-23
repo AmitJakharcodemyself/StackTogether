@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate.ejs')%>
+
+<% if(!payload.profileUser){ %>
+    <span class="errorMessage">Check the url you are trying to access </span>
+<% }
+ else{ %>
+    <script>
+         var profileUser= <%- JSON.stringify(payload.profileUser) %>//correct;
+         var profileUserId="<%=payload.profileUser._id%>";
+         var selectedTab="<%=payload.selectedTab%>";
+    </script>
+    <%
+    var followersCount=payload.profileUser.followers.length;
+    var followingCount=payload.profileUser.following.length;
+
+    %>
+   
+    <div class="tabsContainer">
+        <%
+         var Tab1={
+            name:"Following",
+            href:`/profile/${payload.profileUser.username}/following`,
+            isSelected:(payload.selectedTab!="followers")
+        }
+        
+        %>
+        <%- include('mixins/createTab.ejs',{Tab1})%>
+
+        <% Tab1.name="Followers";Tab1.href=`/profile/${payload.profileUser.username}/followers`;
+        Tab1.isSelected=(payload.selectedTab=="followers");
+        %>
+
+        <%- include('mixins/createTab.ejs',{Tab1})%>
+
+    </div>
+    <div class="resultsContainer">
+
+    </div>
+
+<% } %>
+<%- include('scripts/followersAndFollowing_script.ejs')%>
