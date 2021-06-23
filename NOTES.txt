@@ -13,3 +13,17 @@ in postPage.ejs ) but work perfectly in (home.ejs)
 
 3.** In ejs script [<%.......%>] to access the object like payload no need to use HTML escape
 tage (X <%-,X<%=) ..just directly use payload.profileUser..this rule apply for every script tag
+4. If we have to add class (int string format having spaece b/w them ) the to add it to 
+ejs element use single Quote;
+see ref..(a). mixin/createTab.ejs (b). mixin/createFollowButton.ejs;
+
+4.**Get Vs Post***
+(a). if we send data during get request that we have to access it (on - server) from 
+req.query and for POST ,we have to access it form (on - server) req.body;
+
+.If we are using Server side Variables which are sent during render we should usie the using 
+payload  ..But if we want to send them to client side the we have to sedn using them 
+into new script file and will have to make them available to client side
+
+5.****Issues:: In comparison for CreateFollowButton.ejs in profilePage.ejs
+we must have to use _id.toString() to use includes in ejs template ****

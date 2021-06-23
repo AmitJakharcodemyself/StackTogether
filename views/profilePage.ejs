@@ -4,6 +4,16 @@
     <span class="errorMessage">Check the url you are trying to access </span>
 <% }
  else{ %>
+    <script>
+         var profileUser= <%- JSON.stringify(payload.profileUser) %>//correct
+         var profileUserId="<%=payload.profileUser._id%>";
+         var selectedTab="<%=payload.selectedTab%>";
+    </script>
+    <%
+    var followersCount=payload.profileUser.followers.length;
+    var followingCount=payload.profileUser.following.length;
+
+    %>
     <div class="profileHeaderContainer">
         <div class="coverPhotoContainer">
             <div class="userImageContainer">
@@ -16,13 +26,13 @@
                 <a href="/messages/<%=payload.profileUser._id%>" class="profileButton">
                 <i class="fas fa-envelope"></i>
                 </a>
-             <%
+             <% 
              var createFollow={
-                 isFollowing:true, 
+                 isFollowing:(payload.userLoggedIn.following.includes(payload.profileUser._id.toString())),
              }
              %>
-             <% createFollow.isFollowing=false %>
-                <%- include('mixins/createFollowButton.ejs',{createFollow})%>
+             
+            <%- include('mixins/createFollowButton.ejs',{createFollow})%>
                 
            <% } %>
         </div>
@@ -33,11 +43,11 @@
 
             <div class="followersContainer">
                 <a href="/profile/<%=payload.profileUser.username%>/following">
-                <span class="value">0</span>
+                <span class="value"><%=followingCount%></span>
                 <span>Following</span>
                 </a>
                 <a href="/profile/<%=payload.profileUser.username%>/followers">
-                    <span class="value">0</span>
+                    <span class="value" id="followersValue"><%=followersCount%></span>
                     <span>Followers</span>
                     </a>
             </div>
@@ -50,14 +60,14 @@
          var Tab1={
             name:"Posts",
             href:`/profile/${payload.profileUser.username}`,
-            isSelected:true
+            isSelected:(payload.selectedTab!="replies")
         }
         
         %>
         <%- include('mixins/createTab.ejs',{Tab1})%>
 
         <% Tab1.name="Replies";Tab1.href=`/profile/${payload.profileUser.username}/replies`;
-        Tab1.isSelected=false;
+        Tab1.isSelected=(payload.selectedTab=="replies");
         %>
 
         <%- include('mixins/createTab.ejs',{Tab1})%>

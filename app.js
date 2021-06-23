@@ -60,6 +60,7 @@ const profileRoute=require('./routes/profileRoutes');
 
 //Api Routes
 const postsApiRoute=require('./routes/api/posts');
+const usersApiRoute=require('./routes/api/users');
 
 app.use('/login',loginRoute);
 app.use('/register',registerRoute);
@@ -68,6 +69,7 @@ app.use('/posts',middleware.requireLogin,postRoute);
 app.use('/profile',middleware.requireLogin,profileRoute);
 
 app.use("/api/posts",middleware.requireLogin,postsApiRoute);
+app.use("/api/users",usersApiRoute);
 
 
 
