@@ -1,0 +1,8 @@
+<% 
+var isSelected=Tab1.isSelected;
+var className = isSelected ? "tab active" : "tab";
+
+%>
+<a href="<%=Tab1.href%>" class='<%=className%>'>
+    <span><%=Tab1.name%></span>
+</a>

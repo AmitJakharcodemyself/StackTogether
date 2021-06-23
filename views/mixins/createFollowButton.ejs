@@ -1,0 +1,9 @@
+
+<% 
+var isFollowing=createFollow.isFollowing;
+var text=isFollowing ? "Following" : "Follow";
+var buttonClass =isFollowing ? "followButton following" : "followButton";
+
+%>
+
+<button class='<%=buttonClass%>'' data-user=<%=payload.profileUser._id%> ><%=text%></button>

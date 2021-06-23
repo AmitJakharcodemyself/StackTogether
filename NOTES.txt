@@ -1,0 +1,15 @@
+1.
+One thing to be noted here is we alsways send oayload data during rendering..ant it is working 
+at home.ejs,login.ejs ,registeer.ejs but not working in mixin/replyMdal (if only we include it
+in postPage.ejs ) but work perfectly in (home.ejs)
+2. So I changed <%=payload.userLoggedIn%> to userLoggedIn
+ have converted userLogged In valriable in to client side variable--so that may be the reason
+ ;;
+
+ ***Sory for Misleeading** reasor for that when we refresh er were log ou an not
+  using requiredLogin middleware to  checj that user is loggged in or not..
+  so whenever we try to acces t hat page it shows that profile pic s not defined bcoz
+  //we were logged out and we didn't have access of tha
+
+3.** In ejs script [<%.......%>] to access the object like payload no need to use HTML escape
+tage (X <%-,X<%=) ..just directly use payload.profileUser..this rule apply for every script tag

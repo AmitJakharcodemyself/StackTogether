@@ -12,13 +12,22 @@ router.get("/", async (req, res, next) => {
 })
 
 router.get("/:id", async (req, res, next) => {
-
     var postId = req.params.id;
 
-    var results = await getPosts({ _id: postId });
-    results = results[0];
+    var postData = await getPosts({ _id: postId });
+    postData = postData[0];
 
-    res.status(200).send(results);
+    var results = {
+        postData: postData
+    }
+
+    if(postData.replyTo !== undefined) {
+        results.replyTo = postData.replyTo;
+    }
+
+    results.replies = await getPosts({ replyTo: postId });
+
+    res.status(200).send(results);;
 })
 
 
@@ -135,6 +144,26 @@ router.post("/:id/retweet", async (req, res, next) => {
 
 
     res.status(200).send(post)
+})
+
+router.delete("/:id", async(req, res, next) => {
+    var postId=req.params.id;
+    var deleting_post=getPosts({_id:postId});
+
+    //delete images from cloudinary stored in This post
+    if(deleting_post.images && deleting_post.images.length){
+    for (let img of deleting_post.images) {
+        await cloudinary.uploader.destroy(img.filename);
+    }
+    }
+    //delete tha POST from Schema
+
+    Post.findByIdAndDelete(req.params.id)
+    .then(() => res.sendStatus(200))
+    .catch(error => {
+        console.log(error);
+        res.sendStatus(400);
+    })
 })
 
 async function getPosts(filter) {

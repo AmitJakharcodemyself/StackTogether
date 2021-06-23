@@ -1,0 +1,75 @@
+<% layout('layouts/boilerplate.ejs')%>
+
+<% if(!payload.profileUser){ %>
+    <span class="errorMessage">Check the url you are trying to access </span>
+<% }
+ else{ %>
+    <div class="profileHeaderContainer">
+        <div class="coverPhotoContainer">
+            <div class="userImageContainer">
+                <img src="<%=payload.profileUser.profilePic%>" alt="User Profile Image" >
+            </div>
+
+        </div>
+        <div class="profileButtonsContainer">
+            <% if(payload.profileUser._id !=payload.userLoggedIn._id){ %>
+                <a href="/messages/<%=payload.profileUser._id%>" class="profileButton">
+                <i class="fas fa-envelope"></i>
+                </a>
+             <%
+             var createFollow={
+                 isFollowing:true, 
+             }
+             %>
+             <% createFollow.isFollowing=false %>
+                <%- include('mixins/createFollowButton.ejs',{createFollow})%>
+                
+           <% } %>
+        </div>
+        <div class="userDetailsContainer">
+            <span class="displayName"><%=payload.profileUser.firstName%> <%=payload.profileUser.lastName%> </span>
+            <span class="username">@<%=payload.profileUser.username%> </span>
+            <span class="description"><%=payload.profileUser.description%></span>
+
+            <div class="followersContainer">
+                <a href="/profile/<%=payload.profileUser.username%>/following">
+                <span class="value">0</span>
+                <span>Following</span>
+                </a>
+                <a href="/profile/<%=payload.profileUser.username%>/followers">
+                    <span class="value">0</span>
+                    <span>Followers</span>
+                    </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="tabsContainer">
+        <%
+         var Tab1={
+            name:"Posts",
+            href:`/profile/${payload.profileUser.username}`,
+            isSelected:true
+        }
+        
+        %>
+        <%- include('mixins/createTab.ejs',{Tab1})%>
+
+        <% Tab1.name="Replies";Tab1.href=`/profile/${payload.profileUser.username}/replies`;
+        Tab1.isSelected=false;
+        %>
+
+        <%- include('mixins/createTab.ejs',{Tab1})%>
+
+    </div>
+
+    <div class="postsContainer">
+
+    </div>
+
+
+<%- include('mixins/createDeletePostModal.ejs')%>
+<%- include('mixins/createReplyModal.ejs')%>
+<% } %>
+<%- include('scripts/profile_script.ejs')%>
