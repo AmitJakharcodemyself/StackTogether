@@ -1,0 +1,38 @@
+<% layout('layouts/boilerplate.ejs')%>
+
+<div class="searchBarContainer">
+    <i class="fas fa-search"></i>
+    <input type="text" name="searchBox" id="searchBox" data-search="<%=payload.selectedTab%>"
+    placeholder="Search for users or posts">
+</div>
+
+<div class="tabsContainer">
+    <%
+     var Tab1={
+        name:"Posts",
+        href:`/search/posts`,
+        isSelected:(payload.selectedTab!="users")
+    }
+    
+    %>
+    <%- include('mixins/createTab.ejs',{Tab1})%>
+
+    <% Tab1.name="Users";Tab1.href=`/search/users`;
+    Tab1.isSelected=(payload.selectedTab=="users");
+    %>
+
+    <%- include('mixins/createTab.ejs',{Tab1})%>
+
+</div>
+
+<div class="resultsContainer">
+
+</div>    
+
+<%- include('mixins/createDeletePostModal.ejs')%>
+<%- include('mixins/createReplyModal.ejs')%>
+<%- include('mixins/createPinnedPostModal.ejs')%>
+<%- include('mixins/createEditPostModal.ejs')%>
+<%- include('mixins/createUnpinPostModal.ejs')%>
+
+<%- include('scripts/search_script.ejs')%>

@@ -2,11 +2,16 @@
 <script>
      var postId='<%=payload.postId%>';
 </script>
+
+
 <div class="postsContainer">
 
 </div>
+
 <%- include('mixins/createDeletePostModal.ejs')%>
 <%- include('mixins/createReplyModal.ejs')%>
 <%- include('mixins/createPinnedPostModal.ejs')%>
 <%- include('mixins/createEditPostModal.ejs')%>
+<%- include('mixins/createUnpinPostModal.ejs')%>
+
 <%- include('scripts/postPage_script.ejs')%>
