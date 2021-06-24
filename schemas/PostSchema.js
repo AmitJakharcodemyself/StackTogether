@@ -9,12 +9,13 @@ const ImageSchema = new Schema({
 const PostSchema=new Schema({
     content:{type:String,trim:true},
     postedBy:{type:Schema.Types.ObjectId,ref:'User'},
-    pinned:{Boolean},
+    pinned:{type:Boolean},
     likes:[{type:Schema.Types.ObjectId,ref:'User'}],
     retweetUsers:[{type:Schema.Types.ObjectId,ref:'User'}],
     retweetData:{type:Schema.Types.ObjectId,ref:'Post'},
     replyTo:{type:Schema.Types.ObjectId,ref:'Post'},
-    images:[ImageSchema]
+    images:[ImageSchema],
+    
 
 },{timestamps:true});
 

@@ -1,3 +1,7 @@
+// Globals
+var cropper;
+
+
 $("#postTextarea,#replyTextarea").keyup(event => {
     var textbox = $(event.target);
     var value = textbox.val().trim();
@@ -6,6 +10,23 @@ $("#postTextarea,#replyTextarea").keyup(event => {
 
     
     var submitButton = isModal ? $("#submitReplyButton") : $("#submitPostButton");
+
+    if(submitButton.length == 0) return alert("No submit button found");
+
+    if (value == "") {
+        submitButton.prop("disabled", true);
+        return;
+    }
+
+    submitButton.prop("disabled", false);
+})
+
+
+$("#editTextarea").keyup(event => {
+    var textbox = $(event.target);
+    var value = textbox.val().trim();
+
+    var submitButton = $("#submitEditPostButton");
 
     if(submitButton.length == 0) return alert("No submit button found");
 
@@ -73,6 +94,19 @@ $("#deletePostModal").on("show.bs.modal", (event) => {
     $("#deletePostButton").data("id", postId);
 })
 
+
+$("#confirmPinModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    $("#pinPostButton").data("id", postId);
+})
+
+$("#editPostModal").on("show.bs.modal",(event)=>{
+    var button = $(event.relatedTarget);
+    var postId = getPostIdFromElement(button);
+    $("#submitEditPostButton").data("id", postId);
+})
+
 $("#deletePostButton").click((event) => {
     var postId = $(event.target).data("id");
 
@@ -82,6 +116,142 @@ $("#deletePostButton").click((event) => {
         success: () => {
             location.reload();
         }
+    })
+})
+
+
+$("#pinPostButton").click((event) => {
+    var postId = $(event.target).data("id");
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "PUT",
+        data: { pinned: true },
+        success: (data, status, xhr) => {
+
+            if(xhr.status != 204) {
+                alert("could not delete post");
+                return;
+            }
+            
+            location.reload();
+        }
+    })
+})
+
+$("#submitEditPostButton").click((event) => {
+    var postId = $(event.target).data("id");
+    var textbox=$("#editTextarea");
+
+    var data={
+        content:textbox.val()
+    }
+
+    $.ajax({
+        url: `/api/posts/${postId}`,
+        type: "PUT",
+        data,
+        success: (data, status, xhr) => {
+
+            if(xhr.status != 204) {
+                alert("could not delete post");
+                return;
+            }
+            
+            location.reload();
+        }
+    })
+})
+
+$("#filePhoto").change(function(){    
+    if(this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var image = document.getElementById("imagePreview");
+            image.src = e.target.result;
+
+            if(cropper !== undefined) {
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(image, {
+                aspectRatio: 1 / 1,
+                background: false
+            });
+
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+    else {
+        console.log("nope")
+    }
+})
+
+$("#coverPhoto").change(function(){    
+    if(this.files && this.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (e) => {
+            var image = document.getElementById("coverPreview");
+            image.src = e.target.result;
+
+            if(cropper !== undefined) {
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(image, {
+                aspectRatio: 16 / 9,
+                background: false
+            });
+
+        }
+        reader.readAsDataURL(this.files[0]);
+    }
+})
+
+$("#imageUploadButton").click(() => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas == null) {
+        alert("Could not upload image. Make sure it is an image file.");
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/profilePicture",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => location.reload()
+        })
+    })
+})
+
+
+$("#coverPhotoButton").click(() => {
+    var canvas = cropper.getCroppedCanvas();
+
+    if(canvas == null) {
+        alert("Could not upload image. Make sure it is an image file.");
+        return;
+    }
+
+    canvas.toBlob((blob) => {
+        var formData = new FormData();
+        formData.append("croppedImage", blob);
+
+        $.ajax({
+            url: "/api/users/coverPhoto",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: () => location.reload()
+        })
     })
 })
 
@@ -259,7 +429,9 @@ function createPostHtml(postData,largeFont=false) {
 
     var buttons = "";
     if (postData.postedBy._id == userLoggedIn._id) {
-        buttons = `<button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>`;
+        buttons = `<button data-id="${postData._id}" data-toggle="modal" data-target="#confirmPinModal"><i class='fas fa-thumbtack'></i></button>
+                    <button data-id="${postData._id}" data-toggle="modal" data-target="#deletePostModal"><i class='fas fa-times'></i></button>
+                    <button data-id="${postData._id}" data-toggle="modal" data-target="#editPostModal"><i class='fas fa-edit'></i></button>`;
     }
 
     return `<div class='post ${largeFontClass}' data-id='${postData._id}'>

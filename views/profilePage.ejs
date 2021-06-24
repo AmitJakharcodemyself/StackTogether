@@ -15,11 +15,32 @@
 
     %>
     <div class="profileHeaderContainer">
-        <div class="coverPhotoContainer">
+        <div class="coverPhotoSection">
+
+            <div class="coverPhotoContainer">
+                <% if(payload.profileUser.coverPhoto) {%>
+                <img src="<%=payload.profileUser.coverPhoto%>" alt="coverPhoto" srcset="">
+                <%}%>
+
+                <% if(payload.profileUser._id == payload.userLoggedIn._id) {%>
+                    <button class="coverPhotoButton" data-toggle="modal" data-target="#coverPhotoUploadModal">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <%}%>
+            </div>
+           
             <div class="userImageContainer">
                 <img src="<%=payload.profileUser.profilePic%>" alt="User Profile Image" >
+
+                <% if(payload.profileUser._id == payload.userLoggedIn._id) {%>
+                    <button class="profilePictureButton" data-toggle="modal" data-target="#imageUploadModal">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <%}%>
+
             </div>
 
+          
         </div>
         <div class="profileButtonsContainer">
             <% if(payload.profileUser._id !=payload.userLoggedIn._id){ %>
@@ -81,5 +102,9 @@
 
 <%- include('mixins/createDeletePostModal.ejs')%>
 <%- include('mixins/createReplyModal.ejs')%>
+<%- include('mixins/createImageUploadModal.ejs')%>
+<%- include('mixins/createCoverPhotoUploadModal.ejs')%>
+<%- include('mixins/createPinnedPostModal.ejs')%>
+<%- include('mixins/createEditPostModal.ejs')%>
 <% } %>
 <%- include('scripts/profile_script.ejs')%>
