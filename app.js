@@ -58,10 +58,12 @@ const logoutRoute=require('./routes/logoutRoutes');
 const postRoute=require('./routes/postRoutes');
 const profileRoute=require('./routes/profileRoutes');
 const searchRoute=require('./routes/searchRoutes');
+const messagesRoute=require('./routes/messagesRoutes');
 
 //Api Routes
 const postsApiRoute=require('./routes/api/posts');
 const usersApiRoute=require('./routes/api/users');
+const chatsApiRoute=require('./routes/api/chats');
 
 app.use('/login',loginRoute);
 app.use('/register',registerRoute);
@@ -69,9 +71,11 @@ app.use('/logout',logoutRoute);
 app.use('/posts',middleware.requireLogin,postRoute);
 app.use('/profile',middleware.requireLogin,profileRoute);
 app.use('/search',middleware.requireLogin,searchRoute);
+app.use('/messages',middleware.requireLogin,messagesRoute);
 
 app.use("/api/posts",middleware.requireLogin,postsApiRoute);
 app.use("/api/users",usersApiRoute);
+app.use("/api/chats",chatsApiRoute);
 
 
 

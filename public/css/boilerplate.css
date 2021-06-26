@@ -249,6 +249,7 @@ button span{
         border-radius:50%;
         transform:scale(2);
         padding-bottom:var(--spacing);
+        margin-left:var(--spacing);
     }
 .timestamp_retweet{
         margin-left:var(--spacing);
@@ -489,3 +490,72 @@ a .fab,fa-uncharted {
     border: none;
     color: var(--greyText);
 }
+
+.chatPageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.chatTitleBar {
+    border-bottom: 1px solid var(--lightGrey);
+    display: flex;
+    align-items: center;
+    min-height: 60px;
+    padding: 10px;
+}
+
+.chatTitleBar label {
+    margin-right: 10px;
+}
+
+#userSearchTextbox {
+    border: none;
+    flex: 1;
+    font-weight: 200;
+    min-width: 350px;
+}
+
+#createChatButton {
+    border: none;
+    background-color: var(--blue);
+    color: #fff;
+    padding: 7px 20px;
+    margin: 10px auto;
+    border-radius: 40px;
+}
+
+#createChatButton:disabled {
+    background-color: var(--lightGrey);
+    color: var(--greyText);
+}
+
+.selectedUser {
+    font-weight: 300;
+    background-color: #CBE5FE;
+    color: #0084ff;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 5px 5px 0 0;
+    display: inline-block;
+}
+
+.postFormImageContainer{
+    flex:1;
+    
+}
+.postFormImageContainer #postTextarea{
+    margin-bottom:var(--spacing);
+    border-bottom:1px solid var(--lightGrey);
+    
+}
+
+#postTextarea {
+    border-bottom:1px solid var(--lightGrey);
+    overflow: hidden; /*overflow is set to auto at max height using JS */
+    max-height:314px;
+    min-height:50px;
+    height: auto;
+    resize: none;
+  
+  }

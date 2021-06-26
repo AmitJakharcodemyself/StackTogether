@@ -32,6 +32,11 @@
             <div class="mainSectionContainer col-10 col-md-8 col-lg-6">
                 <div class="titleContainer">
                     <h1><%=payload.title%></h1>
+                    <% if(payload.title=="Inbox") {%>
+                        <a href="messages/new">
+                        <i class="far fa-plus-square"></i>
+                        </a>
+                        <%}%>
                 </div>
 
                 <%- body %>

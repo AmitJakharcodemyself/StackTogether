@@ -3,12 +3,15 @@
         <img src="<%=payload.userLoggedIn.profilePic%>" alt="<%=userLoggedIn.firstName%>'s Profile picture" >
         <!--Or M-2 can use using userLoggedIn from res.locals.-->
     </div>
+    
+    <div class=" postFormImageContainer">
     <form action="/api/posts" method="POST" enctype="multipart/form-data">
-    <div class="textareaContainer">
+
+    <div class="textareaContainer" id="contact-form">
         <textarea name="content" id="postTextarea" placeholder="What's happening?"></textarea>
     </div>
     <!--IMAGE-->
-    <hr class="Horizontal">
+   <!-- <hr class="Horizontal"> -->
     <div class="form-file custom-file">
       
         <label class="form-file-label" for="image">
@@ -25,5 +28,6 @@
         <button id="submitPostButton" disabled>post</button>
     </div>
     </form>
+    </div>
     
 </div>
