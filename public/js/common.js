@@ -74,6 +74,7 @@ $("#submitReplyButton").click(() => {
     })
 })
 
+
 $("#replyModal").on("show.bs.modal", (event) => {
     var button = $(event.relatedTarget);
     var postId = getPostIdFromElement(button);
@@ -83,6 +84,7 @@ $("#replyModal").on("show.bs.modal", (event) => {
        // console.log(results);
         outputPosts(results.postData, $("#originalPostContainer"));
     })
+    
 })
 
 $("#replyModal").on("hidden.bs.modal", (event) => {
@@ -419,6 +421,7 @@ $(document).on("click", ".followButton", (e) => {
     })
 });
 
+  
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
     var rootElement = isRoot == true ? element : element.closest(".post");
@@ -433,16 +436,17 @@ function createPostHtml(postData,largeFont=false) {
 
     if(postData == null) return alert("post object is null");
 
-    var isRetweet = postData.retweetData !== undefined;
+    var isRetweet = (postData.retweetData !== undefined && postData.retweetData!=null);//*
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
     var timestamp_retweet='';
     if(isRetweet){
         timestamp_retweet=timeDifference(new Date(), new Date(postData.createdAt));
     }
+    var old=postData;
     postData = isRetweet ? postData.retweetData : postData;
 
    // console.log(isRetweet);
-    
+  //if(isRetweet && postData==null)console.log(old);
     var postedBy = postData.postedBy;
 
     if(postedBy._id === undefined) {

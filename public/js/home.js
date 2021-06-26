@@ -1,6 +1,5 @@
 $(document).ready(()=>{
     $.get("/api/posts",{followingOnly:true},results=>{
-       
        outputPosts(results,$(".postsContainer"))
     })
 })
@@ -15,3 +14,4 @@ $('#contact-form').on( 'change keydown keyup paste cut', 'textarea', function ()
       $('textarea#postTextarea').css("overflow", "hidden");
     }
   }).find('textarea#postTextarea').change();
+
