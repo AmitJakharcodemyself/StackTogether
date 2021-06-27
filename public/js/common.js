@@ -436,7 +436,7 @@ function createPostHtml(postData,largeFont=false) {
 
     if(postData == null) return alert("post object is null");
 
-    var isRetweet = (postData.retweetData !== undefined && postData.retweetData!=null);//*
+    var isRetweet = (postData.retweetData !== undefined && postData.retweetData!=null );//*
     var retweetedBy = isRetweet ? postData.postedBy.username : null;
     var timestamp_retweet='';
     if(isRetweet){

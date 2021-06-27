@@ -1,0 +1,43 @@
+<% layout('layouts/boilerplate.ejs')%>
+
+<% if(payload.errorMessage){%>
+<span id="errorMessage"><%=payload.errorMessage%></span>
+<%}
+else{%>
+<script>
+    var chatId='<%=payload.chat._id%>';
+</script>
+
+<div class="chatPageContainer">
+
+    <div class="chatTitleBarContainer">
+
+        <%- include('mixins/createChatImage.ejs')%>
+        <button data-toggle="modal" data-target="chatNameModal">push me</button>
+        <span id="chatName" data-toggle="modal" data-target="chatNameModal">This is the chst</span>
+    </div>
+    <div class="mainContentContainer">
+        <div class="chatContainer">
+            <div class="chatMessages">
+
+            </div>
+
+            <div class="footer">
+
+                <textarea name="messageInput" placeholder="Type a message..""></textarea>
+
+                <button class="sendMessageButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('mixins/createChatNameModal.ejs')%>
+
+
+<%} %>
+
+
+<%- include('scripts/chatPage_script.ejs')%>

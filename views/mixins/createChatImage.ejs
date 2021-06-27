@@ -1,0 +1,28 @@
+<% 
+var cnt=0;
+var maxImagesToShow=2;
+var remainingUsers=payload.chat.users.length-maxImagesToShow;
+remainingUsers--;
+%>
+
+
+<div class="chatImagesContainer">
+    <% if(remainingUsers>0){%>
+        <div class="userCount">
+            <span>+<%=remainingUsers%></span>
+        </div>
+
+    <%}%>
+
+
+    <% for(let user of payload.chat.users){%>
+        <%if(payload.chat.users.length!=1 && user._id==payload.userLoggedIn._id){%>
+            <%continue;%>
+        <%}
+         else if(cnt>=maxImagesToShow){%>
+         <%   break;%>
+        <%}%>
+    <img src="<%=user.profilePic%>" alt="User's profile picture" title="<%=user.firstName%>">
+    <% cnt++; %>
+    <%}%>
+</div>
