@@ -728,3 +728,7 @@ a .fab,fa-uncharted {
 .chatImagesContainer .userCount {
     margin-left: -10px;
 }
+
+#chatNameTextbox {
+    width: 100%;
+}
