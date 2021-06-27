@@ -3,6 +3,7 @@ if(process.env.NODE_ENV !=='production'){
 }
 
 const express=require('express');
+const port=3000;
 const ejsMate = require('ejs-mate');
 const ejsLocals=require('ejs-locals');
 const path=require('path');
@@ -12,11 +13,15 @@ const session=require('express-session');
 const flash=require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
 
-const port=3000;
-
-
 //START APP
 const app =express();
+
+//SERVING ON ON PORT
+const server=app.listen(port,()=>{
+    console.log(`Server Listening on ${port}`);
+});
+
+const io=require('socket.io')(server,{pingTimeout:60000});
 
 //SET TEMPLATE ENGINE
 
@@ -59,11 +64,13 @@ const postRoute=require('./routes/postRoutes');
 const profileRoute=require('./routes/profileRoutes');
 const searchRoute=require('./routes/searchRoutes');
 const messagesRoute=require('./routes/messagesRoutes');
+const notificationsRoute=require('./routes/notificationRoutes');
 
 //Api Routes
 const postsApiRoute=require('./routes/api/posts');
 const usersApiRoute=require('./routes/api/users');
 const chatsApiRoute=require('./routes/api/chats');
+const messagesApiRoute=require('./routes/api/messages');
 
 app.use('/login',loginRoute);
 app.use('/register',registerRoute);
@@ -72,10 +79,12 @@ app.use('/posts',middleware.requireLogin,postRoute);
 app.use('/profile',middleware.requireLogin,profileRoute);
 app.use('/search',middleware.requireLogin,searchRoute);
 app.use('/messages',middleware.requireLogin,messagesRoute);
+app.use('/notifications',middleware.requireLogin,notificationsRoute);
 
 app.use("/api/posts",middleware.requireLogin,postsApiRoute);
 app.use("/api/users",usersApiRoute);
 app.use("/api/chats",chatsApiRoute);
+app.use("/api/messages",messagesApiRoute);
 
 
 
@@ -89,9 +98,30 @@ app.get('/',middleware.requireLogin, (req,res)=>{
     res.status(200).render('home',{payload});
 })
 
+io.on("connection", socket => {
+
+    socket.on("setup", userData => {
+        socket.join(userData._id);
+        socket.emit("connected");
+    })
+
+    socket.on("join room", room => socket.join(room));
+    socket.on("typing", room => socket.in(room).emit("typing"));
+    socket.on("stop typing", room => socket.in(room).emit("stop typing"));
 
 
-//SERVING ON ON PORT
-app.listen(port,()=>{
-    console.log(`Server Listening on ${port}`);
-});
+    socket.on("new message", newMessage => {
+        var chat = newMessage.chat;
+
+        if(!chat.users) return console.log("Chat.users not defined");
+
+        chat.users.forEach(user => {
+            
+            if(user._id == newMessage.sender._id) return;
+            console.log(user);
+            socket.in(user._id).emit("message received", newMessage);
+        })
+    });
+
+})
+

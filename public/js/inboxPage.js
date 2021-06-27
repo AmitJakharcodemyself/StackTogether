@@ -5,6 +5,7 @@ $(document).ready(() => {
         }
         else {
             outputChatList(data, $(".resultsContainer"));
+            $(".loadingSpinnerContainer").remove();
         }
     })
 })
@@ -23,7 +24,7 @@ function outputChatList(chatList, container) {
 function createChatHtml(chatData) {
     var chatName = getChatName(chatData);
     var image = getChatImageElements(chatData);
-    var latestMessage = "This is the latest message";
+    var latestMessage = getLatestMessage(chatData.latestMessage);
     
     return `<a href='/messages/${chatData._id}' class='resultListItem'>
                 ${image}
@@ -34,7 +35,14 @@ function createChatHtml(chatData) {
             </a>`;
 }
 
+function getLatestMessage(latestMessage) {
+    if(latestMessage != null) {
+        var sender = latestMessage.sender;
+        return `${sender.firstName} ${sender.lastName}: ${latestMessage.content}`;
+    }
 
+    return "New chat";
+}
 
 function getChatImageElements(chatData) {
     var otherChatUsers = getOtherChatUsers(chatData.users);

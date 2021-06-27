@@ -13,17 +13,23 @@ else{%>
     <div class="chatTitleBarContainer">
 
         <%- include('mixins/createChatImage.ejs')%>
-        <span id="chatName" data-toggle="modal" data-target="#chatNameModal">This is the chst</span>
+        <span id="chatName" data-toggle="modal" data-target="#chatNameModal">This is the chat</span>
     </div>
     <div class="mainContentContainer">
-        <div class="chatContainer">
-            <div class="chatMessages">
 
+        <div class="loadingSpinnerContainer">
+            <img src="https://res.cloudinary.com/devcacmp/image/upload/v1624801291/loadingSpinner_lejth0.gif" alt="Loading spinner">
+        </div>
+        <div class="chatContainer" style="visibility: hidden;">
+
+            <ul class="chatMessages"></ul>
+            <div class="typingDots">
+                <img src="https://res.cloudinary.com/devcacmp/image/upload/v1624820062/dots_p8ac5x.gif" alt="Typing dots" >
             </div>
 
             <div class="footer">
 
-                <textarea name="messageInput" placeholder="Type a message..""></textarea>
+                <textarea class="inputTextbox" name="messageInput" placeholder="Type a message..""></textarea>
 
                 <button class="sendMessageButton">
                     <i class="fas fa-paper-plane"></i>

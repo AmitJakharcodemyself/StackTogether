@@ -1,6 +1,8 @@
 $(document).ready(()=>{
     $.get("/api/posts",{followingOnly:true},results=>{
        outputPosts(results,$(".postsContainer"))
+       $(".loadingSpinnerContainer").remove();
+      // $(".postContainer").css("visibility", "visible");
     })
 })
 
