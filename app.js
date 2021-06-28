@@ -17,7 +17,7 @@ const expressLayouts = require('express-ejs-layouts');
 const app =express();
 
 //SERVING ON ON PORT
-const server=app.listen(port,()=>{
+const server=app.listen(process.env.PORT || port,()=>{
     console.log(`Server Listening on ${port}`);
 });
 
@@ -34,8 +34,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 
 //SESSION 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
 const sessionConfig={
+    store: MongoDBStore.create({
+        mongoUrl: process.env.MONGO_URI  //(URI FROM.env file)
+      }),
+    name:'amit',
     secret,
     resave:false,
     saveUninitialized:true,
