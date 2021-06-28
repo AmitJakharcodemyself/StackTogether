@@ -27,3 +27,5 @@ into new script file and will have to make them available to client side
 
 5.****Issues:: In comparison for CreateFollowButton.ejs in profilePage.ejs
 we must have to use _id.toString() to use includes in ejs template ****
+6.**.1/Common.js .2/notificationPage.js .3/boilerplate.css 
+.4/home.js  .5/all from now except New files

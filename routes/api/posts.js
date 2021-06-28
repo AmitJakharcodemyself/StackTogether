@@ -93,8 +93,8 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
             newPost = await Post.populate(newPost, { path: "replyTo" });
             
 
-            if(newPost.replyTo !== undefined && newPost.replyTo!=null) {
-                await Notification.insertNotification(req.body.replyTo, req.session.user._id, "reply", newPost._id);
+            if(newPost.replyTo !== undefined) {
+                await Notification.insertNotification(newPost.replyTo.postedBy, req.session.user._id, "reply", newPost._id);
             }
            // return res.status(201).send(newPost);
            return res.status(200).redirect('/');
