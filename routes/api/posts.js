@@ -82,6 +82,8 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
     };
 
     if(req.body.replyTo) {
+       // console.log("reply")
+       // console.log(postData);
         postData.replyTo = req.body.replyTo;
         try{
             var newPost =new Post(postData);
@@ -93,11 +95,11 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
             newPost = await Post.populate(newPost, { path: "replyTo" });
             
 
-            if(newPost.replyTo !== undefined) {
+            if(newPost.replyTo !== undefined && newPost.replyTo.postedBy!=req.session.user._id) {
                 await Notification.insertNotification(newPost.replyTo.postedBy, req.session.user._id, "reply", newPost._id);
             }
            // return res.status(201).send(newPost);
-           return res.status(200).redirect('/');
+           return res.status(201).send(newPost);
             }
             catch(error){
                 console.log(error);

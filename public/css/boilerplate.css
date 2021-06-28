@@ -182,6 +182,7 @@ button span{
 .mainContentContainer {
     flex: 1;
     display: flex;
+    overflow-y: hidden;
 }
 
 .postContentContainer {
@@ -514,6 +515,7 @@ a .fab,fa-uncharted {
     flex-direction: column;
     min-height: 0;
     flex:1;
+    flex-basis: 0;
 }
 
 .chatTitleBar {
@@ -875,6 +877,7 @@ a .fab,fa-uncharted {
     display: flex;
     align-items: center;
     justify-content: center;
+    visibility: hidden;
    
 }
 
@@ -883,3 +886,17 @@ a .fab,fa-uncharted {
     visibility: visible;
 }
 
+#notificationList {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+    width: 350px;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+#notificationList .active {
+    background-color: white;
+}

@@ -20,7 +20,7 @@ else{%>
         <div class="loadingSpinnerContainer">
             <img src="https://res.cloudinary.com/devcacmp/image/upload/v1624801291/loadingSpinner_lejth0.gif" alt="Loading spinner">
         </div>
-        <div class="chatContainer" style="visibility: hidden;">
+        <div class="chatContainer" style="visibility: hidden;" data-room="<%=payload.chat._id%>">
 
             <ul class="chatMessages"></ul>
             <div class="typingDots">
