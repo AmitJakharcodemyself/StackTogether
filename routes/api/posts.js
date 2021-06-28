@@ -5,6 +5,8 @@ const Post=require('../../schemas/PostSchema');
 const multer = require('multer');
 const { storage } = require('../../cloudinary/index');
 const upload = multer({ storage });
+const Notification = require('../../schemas/NotificationSchema');
+
 
 router.get("/", async (req, res, next) => {
 
@@ -88,6 +90,12 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
             //populate
             // await newPost.populate('postedBy');
             newPost= await User.populate(newPost,{path:"postedBy"});// is newPost is not Const
+            newPost = await Post.populate(newPost, { path: "replyTo" });
+            
+
+            if(newPost.replyTo !== undefined && newPost.replyTo!=null) {
+                await Notification.insertNotification(req.body.replyTo, req.session.user._id, "reply", newPost._id);
+            }
            // return res.status(201).send(newPost);
            return res.status(200).redirect('/');
             }
@@ -135,7 +143,9 @@ router.put("/:id/like", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
-
+    if(!isLiked) {
+        await Notification.insertNotification(post.postedBy, userId, "postLike", post._id);
+    }
 
     res.status(200).send(post)
 })
@@ -176,7 +186,9 @@ router.post("/:id/retweet", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
-
+    if(!deletedPost) {
+        await Notification.insertNotification(post.postedBy, userId, "retweet", post._id);
+    }
 
     res.status(200).send(post)
 })

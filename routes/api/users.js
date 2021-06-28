@@ -5,6 +5,8 @@ const Post = require('../../schemas/PostSchema');
 const multer = require('multer');
 const { storage } = require('../../cloudinary/index');
 const upload = multer({ storage });
+const Notification = require('../../schemas/NotificationSchema');
+
 
 router.get("/", async (req, res, next) => {
     var searchObj = req.query;
@@ -49,6 +51,11 @@ router.put("/:userId/follow", async (req, res, next) => {
         console.log(error);
         res.sendStatus(400);
     })
+
+    if(!isFollowing) {
+        await Notification.insertNotification(userId, req.session.user._id, "follow", req.session.user._id);
+    }
+
 
     res.status(200).send(req.session.user);
 })

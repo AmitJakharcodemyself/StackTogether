@@ -435,6 +435,16 @@ $(document).on("click", ".followButton", (e) => {
     })
 });
 
+$(document).on("click", ".notification.active", (e) => {
+    var container = $(e.target);
+    var notificationId = container.data().id;
+
+    var href = container.attr("href");
+    e.preventDefault();
+
+    var callback = () => window.location = href;
+    markNotificationsAsOpened(notificationId, callback);
+})
   
 function getPostIdFromElement(element) {
     var isRoot = element.hasClass("post");
@@ -755,10 +765,21 @@ function getOtherChatUsers(users) {
 
 
 function messageReceived(newMessage) {
-    if($(".chatContainer").length == 0) {
+    if($(".chatContainer").length == 0) {//user is not on tha chat page
         // Show popup notification
     }
     else {
         addChatMessageHtml(newMessage);
     }
+}
+
+function markNotificationsAsOpened(notificationId = null, callback = null) {
+    if(callback == null) callback = () => location.reload();
+
+    var url = notificationId != null ? `/api/notifications/${notificationId}/markAsOpened` : `/api/notifications/markAsOpened`;
+    $.ajax({
+        url: url,
+        type: "PUT",
+        success: () => callback()
+    })
 }

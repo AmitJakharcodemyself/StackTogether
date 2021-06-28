@@ -71,6 +71,7 @@ const postsApiRoute=require('./routes/api/posts');
 const usersApiRoute=require('./routes/api/users');
 const chatsApiRoute=require('./routes/api/chats');
 const messagesApiRoute=require('./routes/api/messages');
+const notificationsApiRoute=require('./routes/api/notifications');
 
 app.use('/login',loginRoute);
 app.use('/register',registerRoute);
@@ -85,6 +86,7 @@ app.use("/api/posts",middleware.requireLogin,postsApiRoute);
 app.use("/api/users",usersApiRoute);
 app.use("/api/chats",chatsApiRoute);
 app.use("/api/messages",messagesApiRoute);
+app.use("/api/notifications",notificationsApiRoute);
 
 
 
@@ -118,7 +120,7 @@ io.on("connection", socket => {
         chat.users.forEach(user => {
             
             if(user._id == newMessage.sender._id) return;
-            console.log(user);
+           // console.log(user);
             socket.in(user._id).emit("message received", newMessage);
         })
     });
