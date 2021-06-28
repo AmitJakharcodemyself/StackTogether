@@ -36,6 +36,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')))
 
 //SESSION 
+
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+
 const sessionConfig={
     store: MongoDBStore.create({
         mongoUrl: process.env.MONGO_URI  //(URI FROM.env file)
