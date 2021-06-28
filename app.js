@@ -12,6 +12,8 @@ const mongoose=require('./database');
 const session=require('express-session');
 const flash=require('connect-flash');
 const expressLayouts = require('express-ejs-layouts');
+const MongoDBStore = require("connect-mongo");
+
 
 //START APP
 const app =express();
