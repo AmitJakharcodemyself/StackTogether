@@ -68,7 +68,7 @@ router.get("/:id", async (req, res, next) => {
 })
 
 
-router.post('/',upload.array('image'), async(req,res,next)=>{
+router.post('/',upload.array('image',{timeout:60000}), async(req,res,next)=>{
     res.send("hello");
     console.log(req.files);
     //console.log(req.body);
