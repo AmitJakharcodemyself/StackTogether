@@ -7,9 +7,9 @@ const { storage } = require('../../cloudinary/index');
 const upload = multer({ storage });
 const Notification = require('../../schemas/NotificationSchema');
 
-const  uploading=function(req,res,next){
+const  uploading=async function(req,res,next){
     try{
-        upload.array('image');
+         await upload.array('image');
         next();
     }
     catch(e){
