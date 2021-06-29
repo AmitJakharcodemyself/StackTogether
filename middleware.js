@@ -1,3 +1,8 @@
+const multer=require('multer');
+const storage=require('./cloudinary/index');
+const upload = multer({ storage });
+
+
 module.exports.requireLogin=(req,res,next)=>{
     if(req.session && req.session.user){
         return next();
@@ -6,3 +11,4 @@ module.exports.requireLogin=(req,res,next)=>{
        return  res.redirect('/login');
     }
 }
+
