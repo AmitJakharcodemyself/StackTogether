@@ -7,6 +7,16 @@ const { storage } = require('../../cloudinary/index');
 const upload = multer({ storage });
 const Notification = require('../../schemas/NotificationSchema');
 
+const  uploading=function(req,res,next){
+    try{
+        upload.array('image');
+        next();
+    }
+    catch(e){
+        console.log(e);
+        return res.sendStatus(400);
+    }
+}
 
 router.get("/", async (req, res, next) => {
 
@@ -68,7 +78,7 @@ router.get("/:id", async (req, res, next) => {
 })
 
 
-router.post('/',upload.array('image'), async(req,res,next)=>{
+router.post('/',uploading, async(req,res,next)=>{
    // res.send("hello");
     console.log(JSON.stringify(req.files));
     
