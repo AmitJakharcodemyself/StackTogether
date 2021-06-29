@@ -108,7 +108,7 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
               return  res.sendStatus(400);
             }
     }
-
+else{
     try{
     var newPost =new Post(postData);
     newPost.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
@@ -123,6 +123,7 @@ router.post('/',upload.array('image'), async(req,res,next)=>{
         console.log(error);
       return  res.sendStatus(400);
     }
+}
 })
 
 router.put("/:id/like", async (req, res, next) => {
