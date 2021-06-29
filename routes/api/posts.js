@@ -69,9 +69,10 @@ router.get("/:id", async (req, res, next) => {
 
 
 router.post('/',upload.array('image'), async(req,res,next)=>{
-    res.send("hello");
+   // res.send("hello");
     console.log(req.files);
-    //console.log(req.body);
+    
+    console.log(req.body);
 //return  res.redirect('/');
     if(!req.body.content){
         console.log("content is not given");
@@ -150,7 +151,7 @@ router.put("/:id/like", async (req, res, next) => {
         await Notification.insertNotification(post.postedBy, userId, "postLike", post._id);
     }
 
-    res.status(200).send(post)
+   return res.status(200).send(post)
 })
 //till NOW**
 router.post("/:id/retweet", async (req, res, next) => {
