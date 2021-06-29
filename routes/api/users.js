@@ -103,8 +103,13 @@ router.post("/profilePicture", upload.single("croppedImage"), async (req, res, n
 
         res.sendStatus(200);
     })*/
+    try{
     req.session.user=await User.findByIdAndUpdate(req.session.user._id,{profilePic:req.file.path},{new:true})
     return res.sendStatus(204);
+    }catch(e){
+        consol.log(e);
+        return res.sendStatus(400);
+    }
 
 });
 
