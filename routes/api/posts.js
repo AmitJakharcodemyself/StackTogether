@@ -69,7 +69,8 @@ router.get("/:id", async (req, res, next) => {
 
 
 router.post('/',upload.array('image'), async(req,res,next)=>{
-    //console.log(req.files);
+    res.send("hello");
+    console.log(req.files);
     //console.log(req.body);
 //return  res.redirect('/');
     if(!req.body.content){
